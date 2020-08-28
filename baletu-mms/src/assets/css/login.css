@@ -1,0 +1,32 @@
+.login-box {
+  height: 100%;
+  background: url("../img/9.jpg") no-repeat;
+  background-size: 100% 100%;
+  position: relative;
+}
+
+.login-form {
+  background: rgba(255, 255, 255, 0.5);
+  max-width: 350px;
+  max-height: 290px;
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  margin: auto;
+  padding: 20px;
+}
+
+.login-form h3 {
+  font-size: 24px;
+  color: #2C3E50;
+}
+
+.ant-col {
+  text-align: left;
+}
+
+.login-form-button {
+  width: 100%;
+}

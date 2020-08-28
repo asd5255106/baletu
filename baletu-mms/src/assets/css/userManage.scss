@@ -1,0 +1,68 @@
+.ant-spin-container{
+    position:static;
+}
+.ant-spin-nested-loading{
+    position:static;
+}
+// .ant-table-wrapper{
+//     position: relative;
+// }
+.ant-layout-content {
+    position: relative;
+    height: auto!important;
+    min-height: auto;
+    flex: none;
+}
+// 分页定位
+// .ant-pagination{
+//     position: absolute;
+//     right: 0;
+//     left: 0;
+//     bottom: 0;
+// }
+// 表格滚动条
+// .ant-table-tbody{
+//     height: 450px;
+//     overflow:auto;
+// }
+// .ant-table-thead{
+//     position: sticky;
+//     top: 0;
+// }
+
+.ant-table-cell img {
+    width: 50px;
+    height:50px;
+}
+
+.ant-modal {
+    position: absolute;
+    left: 0; top: 0;bottom: 0;right: 0;
+    margin: 0  auto;
+    padding:  0;
+    margin-top: 4%;
+}
+
+// .ant-modal-body{
+//     .ant-form-item{
+//         &:nth-child(2) {
+//             margin-left: 26px;
+//         }
+//         &:nth-child(3) {
+//             margin-left: -2px;
+//         }
+//         &:nth-child(4) {
+//             margin-left: 26px;
+//         }
+//         &:nth-child(5) {
+//             margin-left: 26px;
+//         }
+//         &:nth-child(6) {
+//             margin-left: -13px;
+//         }
+//         &:nth-child(7) {
+//             margin-left: 26px;
+//         }
+//     }
+        
+// }

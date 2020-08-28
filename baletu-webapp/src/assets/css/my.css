@@ -1,0 +1,257 @@
+.mycss .my[data-v-0783bbc6] {
+  background-color: #f0f0f0;
+  width: 100%;
+  height: 100%;
+}
+
+.mycss .jiaozu[data-v-0783bbc6] {
+  height: 50px;
+  background-color: #fff;
+  border-bottom: 1px solid #f0f0f0;
+  line-height: 50px;
+  padding: 0 15px;
+  position: relative;
+}
+
+.mycss .jiaozu-icon[data-v-0783bbc6] {
+  width: 15px;
+  height: 15px;
+  position: absolute;
+  top: 17.5px;
+  left: 15px;
+}
+
+.mycss .jiaozu-name[data-v-0783bbc6] {
+  padding-left: 30px;
+  font-size: 15px;
+  color: #3a3b3c;
+  vertical-align: top;
+}
+
+.mycss .right-icon[data-v-0783bbc6] {
+  height: 15px;
+  position: absolute;
+  top: 17.5px;
+  right: 10px;
+}
+
+.mycss .aboutUs[data-v-0783bbc6] {
+  height: 50px;
+  background-color: #fff;
+  border-bottom: 1px solid #f0f0f0;
+  line-height: 50px;
+  padding: 0 15px;
+  position: relative;
+}
+
+.mycss .aboutUs-icon[data-v-0783bbc6] {
+  width: 15px;
+  height: 15px;
+  position: absolute;
+  top: 17.5px;
+  left: 15px;
+}
+
+.mycss .aboutUs-name[data-v-0783bbc6] {
+  padding-left: 30px;
+  font-size: 15px;
+  color: #3a3b3c;
+  vertical-align: top;
+}
+
+.mycss .contact[data-v-0783bbc6] {
+  height: 50px;
+  background-color: #fff;
+  border-bottom: 1px solid #f0f0f0;
+  line-height: 50px;
+  padding: 0 15px;
+  font-size: 15px;
+  position: relative;
+}
+
+.mycss .contact-img[data-v-0783bbc6] {
+  width: 15px;
+  height: 15px;
+  position: absolute;
+  top: 17.5px;
+  left: 15px;
+}
+
+.mycss .contact-name[data-v-0783bbc6] {
+  padding-left: 30px;
+}
+
+.mycss .contact-num[data-v-0783bbc6] {
+  float: right;
+  color: #999;
+  margin-right: 15px;
+}
+
+.mycss .my-header[data-v-452748de] {
+  width: 100%;
+  background-color: #e8323f;
+  margin-bottom: 10px;
+  position: relative;
+}
+
+.mycss .header-title[data-v-452748de] {
+  padding: 14px 0 0;
+  font-size: 17px;
+  font-weight: 700;
+  color: #fff;
+  text-align: center;
+}
+
+.mycss .left-icon[data-v-452748de] {
+  height: 20px;
+  padding: 15px;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.mycss .header-info[data-v-452748de] {
+  padding: 29px 25px 32px;
+}
+
+.mycss .header-info-photo[data-v-452748de] {
+  width: 55px;
+  height: 55px;
+  display: inline-block;
+  padding-right: 12.5px;
+  float: left;
+}
+
+.mycss .header-info-photo img[data-v-452748de] {
+  width: 100%;
+  height: 100%;
+}
+
+.mycss .header-userlogin[data-v-452748de] {
+  display: inline-block;
+  width: 78%;
+}
+
+.mycss .userMsg[data-v-452748de] {
+  display: inline-block;
+  float: left;
+}
+
+.mycss .signout[data-v-452748de] {
+  display: inline-block;
+  float: right;
+  color: #f0f0f0;
+  height: 55px;
+  line-height: 55px;
+  font-size: 14px;
+}
+
+.mycss .signout img[data-v-452748de] {
+  height: 14px;
+  width: 14px;
+  margin-bottom: 3.25px;
+}
+
+.mycss .userMsg-username[data-v-452748de] {
+  font-size: 20px;
+  color: #f0f0f0;
+  width: 125px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.mycss .userMsg-num[data-v-452748de] {
+  font-size: 15px;
+  color: #f0f0f0;
+  margin-top: 10px;
+}
+
+.mycss .nologin[data-v-452748de] {
+  font-size: 21px;
+  color: #f0f0f0;
+  vertical-align: middle;
+  line-height: 55px;
+}
+
+.mycss .clearfix[data-v-452748de] {
+  clear: both;
+}
+
+.mycss .signin[data-v-452748de] {
+  color: #f0f0f0;
+  font-size: 15px;
+  display: inline-block;
+  float: left;
+  margin-top: 17.5px;
+}
+
+.mycss .isShow[data-v-452748de] {
+  display: none;
+}
+
+.mycss .active[data-v-452748de] {
+  padding-top: 9px;
+}
+
+.mycss .my-link[data-v-77785bea] {
+  height: 50px;
+  background-color: #fff;
+  border-bottom: 1px solid #f0f0f0;
+  line-height: 50px;
+  padding: 0 15px;
+  position: relative;
+}
+
+.mycss .link-icon[data-v-77785bea] {
+  width: 15px;
+  height: 15px;
+  position: absolute;
+  top: 17.5px;
+  left: 15px;
+}
+
+.mycss .link-name[data-v-77785bea] {
+  padding-left: 30px;
+  font-size: 15px;
+  color: #3a3b3c;
+  vertical-align: top;
+}
+
+.mycss .right-icon[data-v-77785bea] {
+  height: 15px;
+  position: absolute;
+  top: 17.5px;
+  right: 10px;
+}
+
+.mycss .download-app[data-v-529a0804] {
+  height: 50px;
+  background-color: #fff;
+  border-bottom: 1px solid #f0f0f0;
+  line-height: 50px;
+  padding: 0 15px;
+  position: relative;
+}
+
+.mycss .link-icon[data-v-529a0804] {
+  width: 15px;
+  height: 15px;
+  position: absolute;
+  top: 17.5px;
+  left: 15px;
+}
+
+.mycss .link-name[data-v-529a0804] {
+  padding-left: 30px;
+  font-size: 15px;
+  color: #3a3b3c;
+  vertical-align: top;
+}
+
+.mycss .right-icon[data-v-529a0804] {
+  height: 15px;
+  position: absolute;
+  top: 17.5px;
+  right: 10px;
+}

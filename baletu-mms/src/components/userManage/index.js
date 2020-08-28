@@ -1,0 +1,615 @@
+import React from "react";
+
+import { Input, Table, Button, Form, Row, Modal, InputNumber, Select, Upload, message, Popconfirm } from 'antd';
+import { DeleteOutlined, EditOutlined, PoweroffOutlined, PlusOutlined, SearchOutlined, UploadOutlined } from '@ant-design/icons';
+
+
+import "../../assets/css/userManage.css"
+import usersApi from "../../api/usersApi";
+
+const { Option } = Select;
+
+// const { Option } = Select;
+
+
+// const { Search } = Input;
+
+/*
+  用户管理
+*/
+
+class UserManage extends React.Component {
+  constructor() {
+    super()
+
+
+    this.state = {
+      // 表头
+      columns: [
+        {
+          title: '用户ID',
+          dataIndex: 'user_id',
+          key: 'user_id',
+          width: 100,
+        }, {
+          title: '用户头像',
+          dataIndex: 'pic',
+          key: 'pic',
+          render: (record) => <img src={record} alt="" />,
+          width: 90
+
+        },
+        {
+          title: '用户名',
+          dataIndex: 'username',
+          key: 'username',
+          width: 150,
+        },
+        {
+          title: '真实姓名',
+          dataIndex: 'name',
+          key: 'name',
+          width: 120,
+        },
+        {
+          title: '性别',
+          dataIndex: 'sex',
+          key: 'sex',
+          width: 70,
+        },
+        {
+          title: '年龄',
+          dataIndex: 'age',
+          sorter: {
+            compare: (a, b) => a.age - b.age,
+            multiple: 3,
+          },
+          key: 'age',
+          width: 120,
+        },
+        {
+          title: '手机号码',
+          dataIndex: 'phone',
+          key: 'phone',
+          width: 155,
+        },
+        {
+          title: '居住地址',
+          dataIndex: 'adress',
+          key: 'adress',
+          width: 240,
+        },
+        {
+          title: "操作",
+          dataIndex: "action",
+          key: "action",
+          render: (action, row) => {
+            //直接渲染到操作这一列
+            // console.log(action, 9990);
+            return (
+              <React.Fragment>
+                <Button type="primary" shape="circle" icon={<EditOutlined />} title="编辑" onClick={this.editUser.bind(this, row)} /> &nbsp; &nbsp;
+                <Popconfirm
+                  title="确定要删除该用户吗?"
+                  onConfirm={this.confirm.bind(this, row.user_id)}
+                  okText="确定"
+                  cancelText="取消"
+                >
+                  <Button type="primary" shape="circle" icon={<DeleteOutlined />} danger title="删除" />
+                </Popconfirm>
+              </React.Fragment>
+            );
+          },
+          width: 140,
+        },
+      ],
+      // 表格内容数据
+      data: [],
+      page: 1,             // 第几页
+      pagesize: 10,        // 一页多少条
+      total: "",           // 总数
+      search: {   // 查询条件
+
+      },
+      // selectedRowKeys: []   // 选中的
+      isEdit: false,
+      visible: false,       // 控制弹出层
+      fileList: [],         // 头像
+      user_id: null,
+      defaultFileList: [
+        {
+          uid: '1',
+          name: '',
+          url: '',
+        },]
+    }
+    this.formRef = React.createRef();
+    this.formRef2 = React.createRef();
+
+  }
+
+  // 渲染数据
+  fetchAll() {
+    // let { page,pagesize,search } = this.state
+    usersApi.getList(this.state.page, this.state.pagesize, this.state.search).then((res) => {
+      // console.log(res.data)
+      // if(res.data.flag){
+      //   message.success("查询成功")
+      // }
+      let arr = res.data.data;
+      arr.forEach((item) => {
+        //给每一条数据添加一个key值。就用_id来做key值
+        item.key = item.user_id;
+      });
+      this.setState({
+        data: arr,
+        total: res.data.total
+      })
+    }).catch(() => {
+      message.error("没有该数据")
+    })
+  }
+
+  // 重置查询信息
+  onReset = () => {
+    this.formRef.current.resetFields();
+    this.setState({
+      search: {}
+    }, () => {
+      this.fetchAll()
+    })
+  };
+
+  // 输入查询条件
+  onFinish(values) {
+    console.log('Received values of form: ', values);
+    console.log(values.username)
+    // console.log(values.phone)
+    if (values.username && values.phone) {
+      this.setState({
+        search: {
+          name: values.username,
+          phone: values.phone
+
+        }
+      }, () => {
+        this.fetchAll()
+      })
+      // console.log("输入了两个")
+    } else if (values.username) {
+      // console.log("只输入名字")
+      this.setState({
+        search: {
+          name: values.username,
+        }
+      }, () => {
+        this.fetchAll()
+      })
+    } else if (values.phone) {
+      this.setState({
+        search: {
+          phone: values.phone * 1
+        }
+      }, () => {
+        this.fetchAll()
+      })
+    } else {
+      message.warn("请输入查询条件")
+    }
+
+  };
+
+
+  // 表格变化
+  onChange(filters, sorter, extra) {
+    // console.log('params', filters, sorter, extra);
+    // this.fetchAll()
+    this.setState({
+      page: filters.current
+    }, () => {
+      this.fetchAll()
+    })
+
+
+  }
+
+  // 页数
+  pageonChange(pageNumber) {
+    console.log('Page: ', pageNumber);
+  }
+
+  //功能：进入页面就立马执行，获取数据
+  componentDidMount() {
+    this.fetchAll(); //进入页面就发起请求获取第一页数据
+  }
+
+  // 取消模态框
+  onCancel() {
+    // console.log(123)
+    this.formRef2.current.resetFields()
+    this.setState({
+      visible: false,
+    })
+    // this.state.visible = false
+  }
+
+  // 检查用户名是否存在
+  validateUserName = (rule, value, callback) => {
+    usersApi
+      .checkName(value)
+      .then(res => {
+        console.log(res);
+        if (res.data.flag) {
+          //可以注册
+          callback();
+        } else {
+          //已存在，不可以注册
+          callback("用户名已存在");
+        }
+      })
+  };
+
+
+  // 取消模态框  添加用户
+  async onCreate(values) {
+    // console.log(this.fileInput)
+    // console.log(this.formRef.errorFields)
+    try {
+      let formData = new FormData()
+      formData.append('username', values.username)
+      formData.append('password', this.$md5("123456"))
+      formData.append('name', values.name || "")
+      formData.append('sex', values.sex || "")
+      formData.append('age', values.age || "")
+      formData.append('adress', values.adress || "")
+      formData.append('phone', values.phone)
+      // formData.append('files', values.files)
+
+      this.state.fileList.forEach(file => {
+        console.log(file)
+        formData.append('files', file);
+      });
+
+      let p = await usersApi.addUser(formData)
+      if (p.data.flag) {
+        this.setState({
+          fileList: [],
+        });
+        message.success('添加成功');
+        this.fetchAll()
+      } else {
+        message.error('添加失败');
+      }
+      // console.log(values)
+      this.setState({
+        visible: false
+      })
+      // this.state.visible = false
+    } catch (err) {
+      console.log(err)
+    }
+  }
+
+  // 编辑用户
+  editUser(row) {
+    console.log(row.pic)
+    // let name
+    // if(row.pic !== null) {
+    //   console.log(123)
+    //   name = row.pic.split("/").pop()
+    // }
+    // console.log(456)
+    // console.log(name)
+    // let { name }  = this.state.defaultFileList[0]
+    // name = row.pic
+    this.setState({
+      visible: true,
+      isEdit: true,
+      user_id: row.user_id,
+      defaultFileList:[
+        {
+          uid: '1',
+          name:row.pic,
+          url: row.pic,
+        },]
+    },() => {
+      this.formRef2.current.setFieldsValue({
+        "phone": row.phone,
+        "username": row.username,
+        "age": row.age,
+        "sex": row.sex,
+        "adress": row.adress,
+        "name": row.name,
+        "password": 123456,
+        // "files":this.state.fileList
+      })
+    })
+    // console.log(this.formRef2.current)
+    // console.log(row)
+    // console.log(this.props)
+  }
+
+  // 编辑发送请求
+  async onEdit(values) {
+    // console.log(this.formRef2.current.getFieldValue("user_id"))
+    try {
+      let formData = new FormData()
+      formData.append('username', values.username)
+      formData.append('password', this.$md5("123456"))
+      formData.append('name', values.name || "")
+      formData.append('sex', values.sex || "")
+      formData.append('age', values.age || "")
+      formData.append('adress', values.adress || "")
+      formData.append('phone', values.phone)
+      formData.append("user_id", this.state.user_id);
+      // formData.append('files', values.files)
+
+      this.state.fileList.forEach(file => {
+        // console.log(file)
+        formData.append('files', file);
+      });
+
+      let p = await usersApi.edituser(formData)
+      // console.log(p)
+      if (p.data.flag) {
+        this.setState({
+          fileList: [],
+        });
+        message.success('修改成功');
+        this.fetchAll()
+      } else {
+        message.error('修改失败');
+      }
+      // console.log(values)
+      this.setState({
+        visible: false
+      })
+
+    } catch (err) {
+      console.log(err)
+    }
+  }
+
+  // 删除某个用户
+  confirm(user_id) {
+    console.log(user_id);
+    usersApi.delUser(user_id).then(res => {
+      if (res.data.flag) {
+        message.success('删除成功');
+        let pageNum = this.state.page
+        console.log(this.state.data.length)
+        if(this.state.data.length === 1 ){
+          if(this.state.page === 1){
+            message.error("暂无数据")
+            return
+          }
+          this.setState({
+            page : pageNum - 1
+          })
+        }
+        this.fetchAll()
+      } else {
+        message.error('删除失败')
+      }
+    })
+  }
+
+  onRemove(file) {
+    this.setState(state => {
+      const index = state.fileList.indexOf(file);
+      const newFileList = state.fileList.slice();
+      newFileList.splice(index, 1);
+      return {
+        fileList: newFileList,
+      };
+    });
+  }
+
+  beforeUpload(file) {
+    // console.log(file)
+    this.setState({
+      fileList: [...this.state.fileList, file],
+    });
+    return false;
+  }
+
+  render() {
+    // console.log(this.formRef)
+    return (
+      <React.Fragment>
+        {/* 搜索框 */}
+        <div style={{ marginBottom: 20 }}>
+          <Form
+            ref={this.formRef}
+            name="advanced_search"
+            className="ant-advanced-search-form"
+            onFinish={this.onFinish.bind(this)}
+          >
+            <Row>
+              <Form.Item
+                name="username"
+              >
+                <Input placeholder="输入姓名查询" style={{ width: 120, marginRight: 10 }} />
+              </Form.Item>
+
+              <Form.Item
+                name="phone"
+              >
+                <Input placeholder="输入手机号查询" style={{ width: 150, marginRight: 10 }} />
+              </Form.Item>
+
+              <Form.Item>
+                <Button
+                  type="primary"
+                  htmlType="submit"
+                  icon={<SearchOutlined />}
+                  style={{ marginLeft: 10 }}
+                  title="查询用户"
+                // onClick={this.searchUser.bind(this)}
+                >
+                </Button>
+              </Form.Item>
+              <Form.Item>
+                <Button
+                  type="primary"
+                  icon={<PoweroffOutlined />}
+                  style={{ marginLeft: 10 }}
+                  onClick={this.onReset.bind(this)}
+                >
+                  重置
+              </Button>
+              </Form.Item>
+              <Form.Item>
+                {/* 增加 */}
+                <Button
+                  type="primary"
+                  icon={<PlusOutlined />}
+                  style={{ marginLeft: 10, marginRight: 20 }}
+                  title="增加用户"
+                  onClick={() => {
+                    this.setState({
+                      visible: true,
+                      isEdit: false
+                    })
+                  }}
+                />
+              </Form.Item>
+            </Row>
+          </Form>
+        </div>
+
+        {/* 表格内容 */}
+        <Table
+          columns={this.state.columns}
+          dataSource={this.state.data}
+          onChange={this.onChange.bind(this)}
+          pagination={
+            {
+              current: this.state.page,
+              defaultPageSize: this.state.pagesize,
+              total: this.state.total,
+              position: ['bottomCenter'],
+              // showSizeChanger: true,
+              showQuickJumper: true,
+            }
+          }
+          // style={{ height: 500 }}
+          // scroll={this.state.data.length > 3 ? { y: 350 } : false}
+          // scroll={{ y: 350 }}
+        />
+
+        {/* 弹出层 */}
+        <Form
+          ref={this.formRef2}
+          // layout="vertical"
+          name="form_in_modal"
+          initialValues={{ modifier: 'public' }}
+        >
+
+          <Modal
+            visible={this.state.visible}
+            title={this.state.isEdit ? "编辑用户" : "添加用户"}
+            okText="确认"
+            cancelText="取消"
+            onCancel={this.onCancel.bind(this)}
+            onCreate={this.state.isEdit ? this.onEdit.bind(this) : this.onCreate.bind(this)}
+            onOk={() => {
+              this.formRef2.current
+                .validateFields()
+                .then(values => {
+                  this.formRef2.current.resetFields();
+                  this.state.isEdit ? this.onEdit(values) : this.onCreate(values);
+                })
+                .catch(info => {
+                  console.log('Validate Failed:', info);
+                });
+            }}
+          >
+
+            <Form.Item
+              name="username"
+              label="用户名"
+              rules={[
+                { required: true, message: '请输入手机号用户名' },
+                { validator: this.state.isEdit ? "" : this.validateUserName.bind(this) },
+                {
+                  pattern: /^1[3456789]\d{9}$/,
+                  message: '请输入正确的手机格式',
+                },
+              ]}
+              style={{ marginLeft:-1 }}
+            >
+
+              <Input placeholder="请输入手机号用户名" disabled={this.state.isEdit ? true : false} />
+            </Form.Item>
+
+            <Form.Item
+              name="password"
+              label="密码"
+              style={{ marginLeft: 26 }}
+            >
+              <Input defaultValue="123456" disabled={this.state.isEdit ? false : true} />
+            </Form.Item>
+
+            <Form.Item name="name" label="真实姓名" style={{ marginLeft:-2 }}>
+              <Input />
+            </Form.Item>
+
+            <Form.Item name="age" label="年龄" rules={[{ type: 'number', min: 0, max: 99 }]} style={{ marginLeft:26 }} >
+              <InputNumber />
+            </Form.Item>
+
+            <Form.Item label="性别" name="sex" style={{ marginLeft:26 }} >
+              <Select placeholder="性别" style={{ width: 90 }}>
+                <Option value="男">男</Option>
+                <Option value="女">女</Option>
+              </Select>
+            </Form.Item>
+
+            <Form.Item
+              name="phone"
+              label="手机号码"
+              rules={[
+                {
+                  required: true,
+                  message: '请输入用户名'
+                },
+                {
+                  pattern: /^1[3456789]\d{9}$/,
+                  message: '请输入正确的手机格式',
+                },
+              ]}
+              style={{ marginLeft:-13 }}
+            >
+              <Input />
+            </Form.Item>
+
+            <Form.Item
+              name="adress"
+              label="地址"
+              style={{ marginLeft:26 }}
+            >
+              <Input />
+            </Form.Item>
+
+            <Form.Item name="files">
+              <Upload
+                onRemove={this.onRemove.bind(this)}
+                defaultFileList={this.state.isEdit?this.state.defaultFileList:""}
+                beforeUpload={this.beforeUpload.bind(this)}
+                // fileList={this.state.fileList}
+                
+              >
+                <Button>
+                  <UploadOutlined /> 上传头像
+                </Button>
+              </Upload>
+            </Form.Item>
+          </Modal>
+        </Form>
+      </React.Fragment>
+    );
+  }
+}
+
+export default UserManage;

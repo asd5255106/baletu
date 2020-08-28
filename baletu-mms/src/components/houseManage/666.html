@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        // 整租 名圃新村
+        // 坐北朝南 60楼
+        // 	["租金月付","近地铁","独卫","新上架","非一楼","朝南"]
+        // 	天河-天河北
+        // 表头
+        columns: [
+            {
+                title: '房源ID',
+                dataIndex: 'home_id',
+                key: 'home_id',
+                width: 100,
+            }, {
+                title: '图片',
+                dataIndex: 'img',
+                key: 'img',
+                render: (record) => <img src={record} alt="" />,
+                width: 90
+
+            },
+            {
+                title: '类型',
+                dataIndex: 'title',
+                key: 'title',
+                width: 150,
+            },
+            {
+                title: '资料',
+                dataIndex: 'roomInfo',
+                key: 'roomInfo',
+                width: 120,
+            },
+            {
+                title: '标签',
+                dataIndex: 'biaoqian',
+                key: 'biaoqian',
+                width: 70,
+            },
+            {
+                title: '地址',
+                dataIndex: 'text',
+                key: 'text',
+                width: 170,
+            },
+            {
+                title: '价格',
+                dataIndex: 'price',
+                sorter: {
+                    compare: (a, b) => a.age - b.age,
+                    multiple: 3,
+                },
+                key: 'price',
+                width: 120,
+            },
+            {
+                title: "操作",
+                dataIndex: "action",
+                key: "action",
+                render: (action, row) => {
+                    //直接渲染到操作这一列
+                    // console.log(action, 9990);
+                    return (
+                        <React.Fragment>
+                            <Button type="primary" shape="circle" icon={<EditOutlined />} title="编辑" onClick={this.editUser.bind(this, row)} /> &nbsp; &nbsp;
+                            <Popconfirm
+                                title="确定要删除该用户吗?"
+                                onConfirm={this.confirm.bind(this, row.user_id)}
+                                okText="确定"
+                                cancelText="取消"
+                            >
+                                <Button type="primary" shape="circle" icon={<DeleteOutlined />} danger title="删除" />
+                            </Popconfirm>
+                        </React.Fragment>
+                    );
+                },
+                width: 140,
+            },
+        ]
+    </script>
+</body>
+
+</html>
